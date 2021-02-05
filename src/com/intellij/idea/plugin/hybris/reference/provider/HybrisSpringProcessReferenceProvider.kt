@@ -50,16 +50,11 @@ class HybrisSpringProcessReferenceProvider : PsiReferenceProvider() {
 
                 val module = ModuleUtil.findModuleForPsiElement(element) ?: return ResolveResult.EMPTY_ARRAY
 
-                val result = mutableSetOf<SpringBeanPointer<CommonSpringBean>>()
-                val allModels = SpringManager.getInstance(project).getAllModels(module)
-                allModels.forEach { model ->
-                    val pointer = SpringModelSearchers.findBean(model, name)
-                    if (pointer != null) {
-                        result.add(pointer)
-                    }
-                }
-
-                return createResults(result.map { it.beanClass })
+                return SpringManager.getInstance(project).getAllModels(module)
+                    .mapNotNull { SpringModelSearchers.findBean(it, name) }
+                    .map { it.beanClass }
+                    .toCollection(mutableSetOf())
+                    .let { createResults(it) }
             }
 
             override fun resolve(): PsiElement? {

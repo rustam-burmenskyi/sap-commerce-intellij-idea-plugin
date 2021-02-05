@@ -39,7 +39,6 @@ allprojects {
     repositories {
         jcenter()
         mavenCentral()
-        maven("https://jcenter.bintray.com")
     }
 
     java {
@@ -50,10 +49,10 @@ allprojects {
 }
 
 intellij {
-    type = platformType
-    version = platformVersion
+    type = "IU"
+    version = "LATEST-EAP-SNAPSHOT"
     pluginName = pluginName_
-    downloadSources = platformDownloadSources
+    downloadSources = false
     updateSinceUntilBuild = intellijUpdateSinceUntilBuild
 
     // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
@@ -98,6 +97,7 @@ tasks {
 dependencies {
 
     implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinReflect")
     implementation("org.jsoup:jsoup:$jsoupVersion")
     implementation("com.wutka:dtdparser:$dtdparserVersion")
     implementation("commons-io:commons-io:$commonsIOVersion")
