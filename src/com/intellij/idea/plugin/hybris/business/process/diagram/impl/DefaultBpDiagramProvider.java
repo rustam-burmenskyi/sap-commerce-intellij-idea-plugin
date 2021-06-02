@@ -21,6 +21,7 @@ package com.intellij.idea.plugin.hybris.business.process.diagram.impl;
 import com.intellij.diagram.DiagramColorManager;
 import com.intellij.diagram.DiagramDataModel;
 import com.intellij.diagram.DiagramElementManager;
+import com.intellij.diagram.DiagramNodeContentManager;
 import com.intellij.diagram.DiagramPresentationModel;
 import com.intellij.diagram.DiagramVfsResolver;
 import com.intellij.idea.plugin.hybris.business.process.common.BpGraphNode;
@@ -29,6 +30,7 @@ import com.intellij.idea.plugin.hybris.business.process.diagram.BpDiagramElement
 import com.intellij.idea.plugin.hybris.business.process.diagram.BpDiagramProvider;
 import com.intellij.idea.plugin.hybris.business.process.diagram.BpDiagramVfsResolver;
 import com.intellij.idea.plugin.hybris.common.utils.HybrisI18NBundleUtils;
+import com.intellij.idea.plugin.hybris.moduleDiagram.ModuleDepDiagramNodeContentManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
@@ -67,6 +69,11 @@ public class DefaultBpDiagramProvider extends BpDiagramProvider {
     @Override
     public String getPresentableName() {
         return HybrisI18NBundleUtils.message("hybris.business.process.provider.name");
+    }
+
+    @Override
+    public @NotNull DiagramNodeContentManager createNodeContentManager() {
+        return new ModuleDepDiagramNodeContentManager();
     }
 
     @Override
