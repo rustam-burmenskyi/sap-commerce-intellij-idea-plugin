@@ -30,7 +30,8 @@ public class ModuleDepDiagramNodeContentManager extends AbstractDiagramNodeConte
     @Override
     public boolean isInCategory(
         final Object o,
-        final DiagramCategory diagramCategory
+        final DiagramCategory diagramCategory,
+        final DiagramState diagramState
     ) {
         return false;
     }

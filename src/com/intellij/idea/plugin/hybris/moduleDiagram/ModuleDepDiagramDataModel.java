@@ -48,15 +48,11 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toMap;
-
 /**
  * @author Eugene.Kudelevsky
  */
 @SuppressWarnings("ParameterNameDiffersFromOverriddenParameter")
 public class ModuleDepDiagramDataModel extends DiagramDataModel<ModuleDepDiagramItem> {
-
-    private static final long serialVersionUID = 1989252136301054789L;
 
     @NotNull
     private Set<ModuleDepDiagramNode> myNodes = new HashSet<>();
@@ -123,10 +119,11 @@ public class ModuleDepDiagramDataModel extends DiagramDataModel<ModuleDepDiagram
 
             final ModulesUmlProvider modulesUmlProvider = new ModulesUmlProvider();
 
-            final Map<ModuleItem, ModulesUmlNode> item2Node = items.stream()
-                                                                   .collect(toMap(Function.identity(), item -> new ModulesUmlNode(item, modulesUmlProvider)));
+            final Map<ModuleItem, ModulesUmlNode> item2Node = items.stream().collect(Collectors.toMap(
+                Function.identity(), item -> new ModulesUmlNode(item, modulesUmlProvider)));
 
-            final List<ModulesUmlEdge> edges = UmlModulesRelationshipHelper.generateEdges(item2Node, getProject(), false);
+            final List<ModulesUmlEdge> edges = UmlModulesRelationshipHelper.generateEdges(
+                item2Node, getProject(), false);
 
             myNodes.addAll(createAdaptedNodes(items));
             myEdges.addAll(createAdaptedEdges(edges));

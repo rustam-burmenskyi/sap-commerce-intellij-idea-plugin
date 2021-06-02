@@ -21,40 +21,38 @@ package com.intellij.idea.plugin.hybris.moduleDiagram;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.uml.java.project.ModuleItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Eugene.Kudelevsky
  */
-public class ModuleDepDiagramItem extends ModuleItem {
+public class ModuleDepDiagramItem {
 
     private static final String PROJECT_ITEM_NAME = "project";
     private static final String MODULE_PREFIX = "module:";
     private static final String CUSTOM_MODULE_PREFIX = "custom_module:";
 
-//    @Nullable
-//    private final Module getModule();
+    @Nullable
+    private final Module myModule;
 
     private final boolean myCustomExtension;
 
     public ModuleDepDiagramItem(@Nullable final Module module, final boolean customExtension) {
-        super(module);
-//        getModule() = module;
+        myModule = module;
         myCustomExtension = customExtension;
     }
 
-//    @Nullable
-//    public Module getModule() {
-//        return getModule();
-//    }
+    @Nullable
+    public Module getModule() {
+        return myModule;
+    }
 
     @NotNull
     public String getQualifiedName() {
-        if (getModule() != null) {
+        if (myModule != null) {
             final String prefix = myCustomExtension ? CUSTOM_MODULE_PREFIX : MODULE_PREFIX;
-            return prefix + getModule().getName();
+            return prefix + myModule.getName();
         }
         return PROJECT_ITEM_NAME;
     }
@@ -96,23 +94,23 @@ public class ModuleDepDiagramItem extends ModuleItem {
         if (myCustomExtension != that.myCustomExtension) {
             return false;
         }
-        return getModule() != null ? getModule().equals(that.getModule()) : that.getModule() == null;
+        return myModule != null ? myModule.equals(that.myModule) : that.myModule == null;
     }
 
     @Override
     public int hashCode() {
-        int result = getModule() != null ? getModule().hashCode() : 0;
+        int result = myModule != null ? myModule.hashCode() : 0;
         result = 31 * result + (myCustomExtension ? 1 : 0);
         return result;
     }
 
     @NotNull
     public String getName() {
-        return getModule() != null ? getModule().getName() : "project";
+        return myModule != null ? myModule.getName() : "project";
     }
 
     @Override
     public String toString() {
-        return getModule() != null ? getModule().getName() : "hybris Module Dependencies";
+        return myModule != null ? myModule.getName() : "hybris Module Dependencies";
     }
 }
