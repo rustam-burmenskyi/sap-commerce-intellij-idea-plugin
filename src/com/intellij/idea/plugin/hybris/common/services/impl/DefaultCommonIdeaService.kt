@@ -186,6 +186,7 @@ class DefaultCommonIdeaService(commandProcessor: CommandProcessor) : CommonIdeaS
                 if (it.type == null) {
                     it.type = HybrisRemoteConnectionSettings.Type.Hybris
                 }
+                prepareSslRemoteConnectionSettings(it)
             })
             val remoteList = connectionList
                     .stream().filter { it.type == HybrisRemoteConnectionSettings.Type.Hybris }.collect(Collectors.toList())
@@ -204,6 +205,25 @@ class DefaultCommonIdeaService(commandProcessor: CommandProcessor) : CommonIdeaS
                 state.activeSolrConnectionID = newSettings.uuid
             }
         }
+    }
+
+    private fun prepareSslRemoteConnectionSettings(connectionSettings: HybrisRemoteConnectionSettings) {
+        setHybrisRemoteRemoteConnectionSsl(connectionSettings)
+        cleanUpRemoteConnectionSettingsHostIp(connectionSettings)
+    }
+
+    private fun setHybrisRemoteRemoteConnectionSsl(connectionSettings: HybrisRemoteConnectionSettings) {
+        val isSsl = StringUtils.startsWith(connectionSettings.generatedURL, HybrisConstants.HTTPS_PROTOCOL)
+        if (connectionSettings.type == HybrisRemoteConnectionSettings.Type.Hybris) {
+            connectionSettings.isHacSsl = isSsl
+        } else {
+            connectionSettings.isSolrSsl = isSsl
+        }
+    }
+
+    private fun cleanUpRemoteConnectionSettingsHostIp(connectionSettings: HybrisRemoteConnectionSettings) {
+        val regex = Regex("https?://")
+        connectionSettings.hostIP = connectionSettings.hostIP.replace(regex, "")
     }
 
     private fun getLocalProperties(project: Project): Properties? {
