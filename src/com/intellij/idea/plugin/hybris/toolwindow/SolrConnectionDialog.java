@@ -65,7 +65,7 @@ public class SolrConnectionDialog extends DialogWrapper {
         solrWebrootTextField.setText(mySettings.getSolrWebroot());
         loginTextField.setText(mySettings.getAdminLogin());
         passwordField.setText(mySettings.getAdminPassword());
-        sslButton.setSelected(mySettings.isSolrSsl());
+        sslButton.setSelected(mySettings.isSsl());
         setting = new HybrisRemoteConnectionSettings();
         saveSettings(settings);
 
@@ -126,7 +126,7 @@ public class SolrConnectionDialog extends DialogWrapper {
     }
 
     private void saveSettings(HybrisRemoteConnectionSettings mySettings) {
-        mySettings.setSolrSsl(sslButton.isSelected());
+        mySettings.setSsl(sslButton.isSelected());
         mySettings.setDisplayName(displayNameTextField.getText());
         mySettings.setType(HybrisRemoteConnectionSettings.Type.SOLR);
         mySettings.setHostIP(solrIpTextField.getText());

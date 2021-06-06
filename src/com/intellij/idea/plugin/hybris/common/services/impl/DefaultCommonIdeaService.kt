@@ -144,7 +144,7 @@ class DefaultCommonIdeaService(commandProcessor: CommandProcessor) : CommonIdeaS
             settings = HybrisDeveloperSpecificProjectSettingsComponent.getInstance(project)
                     .getActiveSolrConnectionSettings(project)
         }
-        if (settings!!.isSolrSsl) {
+        if (settings!!.isSsl) {
             sb.append(HybrisConstants.HTTPS_PROTOCOL)
         } else {
             sb.append(HybrisConstants.HTTP_PROTOCOL)
@@ -208,17 +208,8 @@ class DefaultCommonIdeaService(commandProcessor: CommandProcessor) : CommonIdeaS
     }
 
     private fun prepareSslRemoteConnectionSettings(connectionSettings: HybrisRemoteConnectionSettings) {
-        setHybrisRemoteRemoteConnectionSsl(connectionSettings)
+        connectionSettings.isSsl = StringUtils.startsWith(connectionSettings.generatedURL, HybrisConstants.HTTPS_PROTOCOL)
         cleanUpRemoteConnectionSettingsHostIp(connectionSettings)
-    }
-
-    private fun setHybrisRemoteRemoteConnectionSsl(connectionSettings: HybrisRemoteConnectionSettings) {
-        val isSsl = StringUtils.startsWith(connectionSettings.generatedURL, HybrisConstants.HTTPS_PROTOCOL)
-        if (connectionSettings.type == HybrisRemoteConnectionSettings.Type.Hybris) {
-            connectionSettings.isHacSsl = isSsl
-        } else {
-            connectionSettings.isSolrSsl = isSsl
-        }
     }
 
     private fun cleanUpRemoteConnectionSettingsHostIp(connectionSettings: HybrisRemoteConnectionSettings) {
@@ -262,7 +253,7 @@ class DefaultCommonIdeaService(commandProcessor: CommandProcessor) : CommonIdeaS
     private fun getUrl(settings: HybrisRemoteConnectionSettings?): String {
         val ip = settings!!.hostIP
         val sb = StringBuilder()
-        if (settings.isHacSsl) {
+        if (settings.isSsl) {
             sb.append(HybrisConstants.HTTPS_PROTOCOL)
         } else {
             sb.append(HybrisConstants.HTTP_PROTOCOL)

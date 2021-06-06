@@ -61,7 +61,7 @@ public class RemoteConnectionDialog extends DialogWrapper {
         hacWebrootTextField.setText(mySettings.getHacWebroot());
         loginTextField.setText(mySettings.getHacLogin());
         passwordField.setText(mySettings.getHacPassword());
-        sslButton.setSelected(mySettings.isHacSsl());
+        sslButton.setSelected(mySettings.isSsl());
         setting = new HybrisRemoteConnectionSettings();
         saveSettings(settings);
 
@@ -121,7 +121,7 @@ public class RemoteConnectionDialog extends DialogWrapper {
     }
 
     private void saveSettings(HybrisRemoteConnectionSettings mySettings) {
-        mySettings.setHacSsl(sslButton.isSelected());
+        mySettings.setSsl(sslButton.isSelected());
         mySettings.setDisplayName(displayNameTextField.getText());
         mySettings.setHostIP(projectIpTextField.getText());
         mySettings.setPort(projectPortTextField.getText());
